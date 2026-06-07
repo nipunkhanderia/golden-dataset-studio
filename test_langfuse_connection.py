@@ -2,4 +2,4 @@
 
 from observability.langfuse_setup import langfuse
 
-print("   Auth Check:", langfuse.auth_check())
+print("Auth Check:", langfuse.auth_check())
