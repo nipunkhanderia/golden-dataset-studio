@@ -165,6 +165,7 @@ from langchain_community.vectorstores import FAISS
 from langchain_ollama import ChatOllama
 
 from deepeval.metrics import AnswerRelevancyMetric
+from deepeval.metrics import FaithfulnessMetric
 from deepeval.test_case import LLMTestCase
 from deepeval.models import DeepEvalBaseLLM
 from groq import Groq
@@ -218,20 +219,39 @@ def test_run(question, expected):
     answer = response.content.strip()
     print(answer)
 
-    test_case = LLMTestCase(
-        input=question,
-        actual_output=answer,
-        expected_output=expected,
-        retrieval_context=contexts
-    )
 
-    groq_model = GroqModel()
-    metric = AnswerRelevancyMetric(threshold=0.5, model=groq_model)
+    test_case = LLMTestCase(input = question, expected_output=expected, retrieval_context=contexts, actual_output=answer)
+    groq = GroqModel()
+    metric = AnswerRelevancyMetric(threshold=0.5, model = groq)
+    metric1 = FaithfulnessMetric(threshold=0.5, include_reason=True, model = groq)
     metric.measure(test_case)
+    metric.is_successful()
+    metric1.measure(test_case)
 
-    print(f"Score  : {metric.score}")
-    print(f"Passed : {metric.is_successful()}")
+
+    print(f"Score : {metric.score}")
+    print(f"Passed :{metric.is_successful()}")
     print(f"Reason : {metric.reason}")
+    print(f"Faithfulness Score:{metric1.score}")
+    print(f"Faithfulness PAssed:{metric1.is_successful()}")
+    print(f"Faithfulness Reason:{metric1.reason}")
+    
+
+
+    # test_case = LLMTestCase(
+    #     input=question,
+    #     actual_output=answer,
+    #     expected_output=expected,
+    #     retrieval_context=contexts
+    # )
+
+    # groq_model = GroqModel()
+    # metric = AnswerRelevancyMetric(threshold=0.5, model=groq_model)
+    # metric.measure(test_case)
+
+    # print(f"Score  : {metric.score}")
+    # print(f"Passed : {metric.is_successful()}")
+    # print(f"Reason : {metric.reason}")
 
 
 # --- run ---
