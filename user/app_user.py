@@ -169,6 +169,8 @@ from deepeval.metrics import FaithfulnessMetric
 from deepeval.test_case import LLMTestCase
 from deepeval.models import DeepEvalBaseLLM
 from groq import Groq
+from langfuse import Langfuse
+
 
 # --- setup ---
 loader = TextLoader("data/nipun_policy.txt")
@@ -204,6 +206,7 @@ class GroqModel(DeepEvalBaseLLM):
     def get_model_name(self):
         return "groq/llama-3.3-70b-versatile"
 
+langfuse = Langfuse()
 
 # --- test function ---
 def test_run(question, expected):
@@ -235,6 +238,23 @@ def test_run(question, expected):
     print(f"Faithfulness Score:{metric1.score}")
     print(f"Faithfulness PAssed:{metric1.is_successful()}")
     print(f"Faithfulness Reason:{metric1.reason}")
+
+
+
+    langfuse.create_event(
+            name="evaluation",
+            metadata={
+                "question":            question,
+                "expected":            expected,
+                "actual":              answer,
+                "relevancy_score":     metric.score,
+                "relevancy_passed":    metric.is_successful(),
+                "relevancy_reason":    metric.reason,
+                "faithfulness_score":  metric1.score,
+                "faithfulness_passed": metric1.is_successful(),
+                "faithfulness_reason": metric1.reason
+            }
+        )
     
 
 
