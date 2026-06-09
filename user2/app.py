@@ -55,16 +55,18 @@ for r in retrieve:
     content_p = r.page_content
     p_retrive.append(content_p)
     final_context = "\n".join(p_retrive)
-print(final_context)
+# print(final_context)
 prompt = f"Answer the question from the context only and not your memomry - Following is the question {question} and this is the context {final_context} "
 
 reposnse = llm.invoke(prompt)
-print(reposnse.content)
+# print(reposnse.content)
 
 from deepeval.test_case import LLMTestCase
 from groq import Groq
+from deepeval.metrics import AnswerRelevancyMetric
+from deepeval.models import DeepEvalBaseLLM
 
-class GroqAPI:
+class GroqAPI(DeepEvalBaseLLM):
     def __init__(self):
         self.client = Groq()
     
@@ -72,12 +74,36 @@ class GroqAPI:
         response = self.client.chat.completions.create(
             model="llama-3.3-70b-versatile", messages= [{"role":"user", "content":prompt}]
         )
-        return response.choices[0].messages("content")
-    async def a_generate(self,content):
+        return response.choices[0].message.content
+    async def a_generate(self,prompt):
         return self.generate(prompt)
     
     def get_model_name(self):
         return "groq/llama-3.3-70b-versatile"
+    def load_model(self):
+        return self.client
+
+groq = GroqAPI()
+test = LLMTestCase(input=prompt, actual_output=reposnse.content, 
+                   expected_output="First man on moon", context=p_retrive)
+metric = AnswerRelevancyMetric(threshold=0.5, model=groq)
+print(test)
+print(metric.measure(test))
+print(metric.score)
+print(metric.is_successful())
+
+
+from langfuse  import Langfuse
+
+langfuse = Langfuse()
+
+
+langfuse.create_event(name="user tests", metadata={
+    "question":question,
+    "expected":"First man on moon",
+    "Score":metric.score,
+    "Did it pass":metric.is_successful()
+})
 
 
 
