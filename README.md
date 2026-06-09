@@ -9,7 +9,8 @@ against a knowledge base using DeepEval metrics and logs results to Langfuse.
 - Uses `llama3.2` via Ollama to generate answers from retrieved context
 - Evaluates answers using 4 DeepEval metrics with a configurable judge model
 - Logs all results (scores, latency, pass/fail) to Langfuse for observability
-- ![RAG Pipeline](diagram.png)
+
+![RAG Pipeline](diagram.png)
 
 ## Evaluation Metrics
 
