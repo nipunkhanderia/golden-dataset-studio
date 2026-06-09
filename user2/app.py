@@ -6,6 +6,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 
 from langchain_community.vectorstores import FAISS
+from langchain_ollama import ChatOllama
 
 
 loader = TextLoader("data/context.txt")
@@ -21,17 +22,47 @@ space = []
 for chucnk in chucnks:
     bread_crumbs = chucnk.page_content
     space.append(bread_crumbs)
-print(len(space))
+# print(len(space))
 
 
 embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2" )
 
 
-print(embedding)
+# print(embedding)
 
 
 db = FAISS.from_documents(chucnks, embedding)
 
-print(db)
+# print(db)
+
+
+llm = ChatOllama(model="gpt-oss:20b", temperature =0)
+
+# response = llm.invoke("Why is sky blue, tell me in one sentence only.")
+
+# print(response.content)
+
+
+retriever = db.as_retriever(search_kwargs = {"k":3})
+
+
+# print(retriever)
+
+question = "Who is Niels Armstrong?"
+retrieve = retriever.invoke(question)
+p_retrive = []
+for r in retrieve:
+    content_p = r.page_content
+    p_retrive.append(content_p)
+    final_context = "\n".join(p_retrive)
+print(final_context)
+prompt = f"Answer the question from the context only and not your memomry - Following is the question {question} and this is the context {final_context} "
+
+reposnse = llm.invoke(prompt)
+print(reposnse.content)
+
+
+
+
 
 
