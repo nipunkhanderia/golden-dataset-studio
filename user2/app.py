@@ -61,6 +61,26 @@ prompt = f"Answer the question from the context only and not your memomry - Foll
 reposnse = llm.invoke(prompt)
 print(reposnse.content)
 
+from deepeval.test_case import LLMTestCase
+from groq import Groq
+
+class GroqAPI:
+    def __init__(self):
+        self.client = Groq()
+    
+    def generate(self, prompt):
+        response = self.client.chat.completions.create(
+            model="llama-3.3-70b-versatile", messages= [{"role":"user", "content":prompt}]
+        )
+        return response.choices[0].messages("content")
+    async def a_generate(self,content):
+        return self.generate(prompt)
+    
+    def get_model_name(self):
+        return "groq/llama-3.3-70b-versatile"
+
+
+
 
 
 
