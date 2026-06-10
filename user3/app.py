@@ -72,10 +72,36 @@ class Groq_API(DeepEvalBaseLLM):
    
 groq = Groq_API()
 
-test = LLMTestCase(actual_output="response", expected_output="238 days", input = prompt, context=content)
+from deepeval.metrics import FaithfulnessMetric
+
+test = LLMTestCase(actual_output=response.content, retrieval_context=content,
+                   expected_output="238 days", input = prompt, context=content)
 metric = AnswerRelevancyMetric(threshold=0.5, model = groq)
 print(metric.measure(test))
 print(metric.is_successful())
+
+faithfulness_metric = FaithfulnessMetric(threshold=0.5, model=groq)
+
+
+from langfuse import Langfuse
+
+langfuse = Langfuse()
+
+langfuse.create_event(name = "New test added",metadata={
+    "Question":question,
+    "prompt":prompt,
+    "Answer":response,
+    "Measure":metric.measure(test),
+    "Pass/Fail":metric.is_successful(),
+    "Score":metric.score,
+    "Faitfulness measure":faithfulness_metric.measure(test),
+    "Faithfulness pass/fail":faithfulness_metric.is_successful(),
+    "Faithful score":faithfulness_metric.score
+
+}
+
+)
+
 
     
 

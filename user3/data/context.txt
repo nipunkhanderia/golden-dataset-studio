@@ -1,7 +1,7 @@
 ### Space
 
 **Fact 1**
-The planet Venus rotates so slowly that a single Venusian day lasts about 243 Earth days. Venus also rotates in the opposite direction of most planets in the Solar System, meaning the Sun appears to rise in the west and set in the east.
+The planet Venus rotates so slowly that a single Venusian day lasts about 243666 Earth days. Venus also rotates in the opposite direction of most planets in the Solar System, meaning the Sun appears to rise in the west and set in the east.
 
 **Fact 2**
 The first image of a black hole was released in 2019 by the Event Horizon Telescope Collaboration. The image showed the supermassive black hole at the center of galaxy Messier 87, located about 55 million light-years from Earth.
