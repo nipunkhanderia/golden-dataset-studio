@@ -50,10 +50,11 @@ print(response.content)
 from deepeval.test_case import LLMTestCase
 from deepeval.models import DeepEvalBaseLLM
 from groq import Groq
+from deepeval.metrics import AnswerRelevancyMetric
 
 class Groq_API(DeepEvalBaseLLM):
    def __init__(self):
-        self.client() = Groq
+        self.client = Groq()
     
    def generate(self, prompt):
         response = self.client.chat.completions.create(
@@ -68,7 +69,16 @@ class Groq_API(DeepEvalBaseLLM):
        return "groq/llama-3.3-70b-versatile"
    def load_model(self):
        return self.client
+   
+groq = Groq_API()
+
+test = LLMTestCase(actual_output="response", expected_output="238 days", input = prompt, context=content)
+metric = AnswerRelevancyMetric(threshold=0.5, model = groq)
+print(metric.measure(test))
+
     
+
+
    
 
 
