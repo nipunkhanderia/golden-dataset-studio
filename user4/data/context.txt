@@ -1,0 +1,68 @@
+### Space
+
+**Fact 1**
+The planet Venus rotates so slowly that a single Venusian day lasts about 243666 Earth days. Venus also rotates in the opposite direction of most planets in the Solar System, meaning the Sun appears to rise in the west and set in the east.
+
+**Fact 2**
+The first image of a black hole was released in 2019 by the Event Horizon Telescope Collaboration. The image showed the supermassive black hole at the center of galaxy Messier 87, located about 55 million light-years from Earth.
+
+---
+
+### Animals
+
+**Fact 3**
+Octopuses have three hearts. Two hearts pump blood to the gills, while the third pumps blood to the rest of the body. When an octopus swims, the heart responsible for systemic circulation temporarily stops beating.
+
+**Fact 4**
+The mantis shrimp possesses one of the most complex visual systems known. Its eyes can detect different types of polarized light and significantly more color channels than humans.
+
+---
+
+### Computing
+
+**Fact 5**
+The first computer bug was an actual moth found trapped inside the Harvard Mark II in 1947. Engineers removed the insect and recorded it in the machine's logbook.
+
+**Fact 6**
+The domain name system (DNS) acts like the internet's phone book by translating human-readable domain names into IP addresses that computers use for communication.
+
+---
+
+### History
+
+**Fact 7**
+The Apollo 11 Moon Landing occurred on July 20, 1969, when astronaut Neil Armstrong became the first human to walk on the Moon.
+
+**Fact 8**
+The Great Fire of London destroyed much of medieval London but resulted in relatively few documented deaths despite burning thousands of buildings.
+
+---
+
+### Geography
+
+**Fact 9**
+The Sahara is the world's largest hot desert, covering approximately 9.2 million square kilometers across North Africa and spanning more than ten countries.
+
+**Fact 10**
+Lake Baikal in Russia contains roughly 20% of the world's unfrozen surface freshwater and is the deepest lake on Earth.
+
+---
+
+### Science
+
+**Fact 11**
+A teaspoon of neutron star material would weigh billions of tons on Earth due to the extreme density produced when massive stars collapse.
+
+**Fact 12**
+Water expands when it freezes, making ice less dense than liquid water. This unusual property allows ice to float and helps aquatic ecosystems survive winter.
+
+---
+
+### Technology
+
+**Fact 13**
+The first SMS text message was sent in 1992 and contained the words "Merry Christmas."
+
+**Fact 14**
+The Global Positioning System (GPS) relies on a constellation of satellites carrying highly accurate atomic clocks. Receivers calculate position by measuring signal travel times from multiple satellites.
+
