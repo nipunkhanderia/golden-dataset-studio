@@ -1,4 +1,4 @@
-﻿# RAG Evaluation Pipeline
+# RAG Evaluation Pipeline
 
 A Retrieval-Augmented Generation (RAG) evaluation framework that tests LLM responses 
 against a knowledge base using DeepEval metrics and logs results to Langfuse.
@@ -72,5 +72,5 @@ Result   : PASS
 EVALUATION SUMMARY
 Passed: 4/4
 Success Rate: 100.0%
-Average DeepEval Score: 1.0
+Average DeepEval Score: 1.0.    
 ```
