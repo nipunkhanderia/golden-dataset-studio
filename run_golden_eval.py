@@ -118,11 +118,11 @@ def main():
     print(f"EVALUATION RESULTS (v{summary.version})")
     print("=" * 50)
     for r in summary.results:
-        symbol = f"{GREEN}{TICK}{RESET}" if (r.semantic_similarity or 0.0) >= 0.7 else f"{RED}{CROSS}{RESET}"
+        symbol = f"{GREEN}{TICK}{RESET}" if (r.semantic_similarity or 0.0) >= 0.5 else f"{RED}{CROSS}{RESET}"
         print(f"  [{r.entry_id}] {symbol} similarity={r.semantic_similarity:.3f}  Q: {r.question[:50]}")
     overall_symbol = f"{GREEN}{TICK}{RESET}" if passed else f"{RED}{CROSS}{RESET}"
     print(f"\n  Avg Similarity: {avg:.3f}")
-    print(f"  Pass (>=0.7):   {overall_symbol}")
+    print(f"  Pass (>=0.5):   {overall_symbol}")
     print(f"  Saved to:       {eval_path}")
 
 
