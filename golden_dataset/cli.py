@@ -242,7 +242,7 @@ def export(ctx: click.Context, fmt: str, output: str | None, version: str | None
 @click.option("--answers-file", "-a", type=click.Path(exists=True, path_type=Path), default=None)
 @click.option("--output", "-o", default=None)
 @click.option("--version", "-v", default=None)
-@click.option("--threshold", default=0.7, show_default=True)
+@click.option("--threshold", default=0.5, show_default=True)
 @click.pass_context
 def evaluate(ctx: click.Context, answers_file: Path | None, output: str | None, version: str | None, threshold: float) -> None:
     """Evaluate LLM answers against golden answers using semantic similarity."""

@@ -1,0 +1,37 @@
+{
+  "dataset_name": "hr-policy-eval",
+  "version": "1.3",
+  "evaluated_at": "2026-06-15T20:54:46.167577Z",
+  "total_entries": 2,
+  "avg_semantic_similarity": 0.23297150808383832,
+  "avg_faithfulness": null,
+  "avg_answer_relevancy": null,
+  "avg_context_recall": null,
+  "avg_context_precision": null,
+  "results": [
+    {
+      "entry_id": "b9e08070",
+      "question": "How many annual leave days?",
+      "expected_answer": "Employees receive 25 days of annual leave per year.",
+      "actual_answer": "According to the context, employees are entitled to 25 days of annual leave.",
+      "semantic_similarity": 0.35630042933313805,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "context_recall": null,
+      "context_precision": null,
+      "overall_score": 0.35630042933313805
+    },
+    {
+      "entry_id": "f8aac4c1",
+      "question": "What is the notice period?",
+      "expected_answer": "The notice period is 90 days for all employees.",
+      "actual_answer": "Unfortunately, the provided context does not mention a notice period. It only provides information about remote work arrangements, annual leave entitlement, medical insurance coverage, and laptop replacement cycles.",
+      "semantic_similarity": 0.10964258683453856,
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "context_recall": null,
+      "context_precision": null,
+      "overall_score": 0.10964258683453856
+    }
+  ]
+}

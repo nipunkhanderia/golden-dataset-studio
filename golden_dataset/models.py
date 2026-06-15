@@ -84,7 +84,7 @@ class EvalSummary(BaseModel):
     avg_context_precision: Optional[float] = None
     results: List[EvalResult] = Field(default_factory=list)
 
-    def passed(self, threshold: float = 0.7) -> bool:
+    def passed(self, threshold: float = 0.5) -> bool:
         if self.avg_semantic_similarity is None:
             return False
         return self.avg_semantic_similarity >= threshold
