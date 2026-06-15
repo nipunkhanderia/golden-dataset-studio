@@ -1,0 +1,2 @@
+[console_scripts]
+golden = golden_dataset.cli:main
