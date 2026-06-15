@@ -1,5 +1,6 @@
 """Run the RAG pipeline against the golden dataset and evaluate results."""
 
+import argparse
 import json
 import time
 from pathlib import Path
@@ -24,11 +25,11 @@ embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-
 db = FAISS.from_documents(chunks, embeddings)
 retriever = db.as_retriever()
 
-llm = ChatOllama(model="llama3.2", temperature=0)
+def ask_rag(llm, question: str, model_name: str) -> str:
+    """Run a question through the RAG pipeline and return the answer using `llm`.
 
-
-def ask_rag(question: str) -> str:
-    """Run a question through the RAG pipeline and return the answer."""
+    Adds error handling to give a helpful hint when Ollama rejects a model name.
+    """
     docs = retriever.invoke(question)
     context = "\n".join([doc.page_content for doc in docs])
 
@@ -44,13 +45,35 @@ Question:
 
 Answer:
 """
-    response = llm.invoke(prompt)
-    return response.content
+    try:
+        response = llm.invoke(prompt)
+        return response.content
+    except Exception as e:
+        msg = str(e)
+        print(f"Error invoking LLM '{model_name}': {msg}")
+        if "invalid model name" in msg.lower() or "invalid model" in msg.lower():
+            print(
+                "Hint: the Ollama model name may differ. If your local model is named 'gpt-oss:20b',"
+                " try `--llm gpt-oss:20b` and ensure the model is installed in Ollama.`"
+            )
+        raise
 
 
 # --- Golden Dataset Evaluation ---
 
 def main():
+    parser = argparse.ArgumentParser(description="Run RAG pipeline against golden dataset")
+    parser.add_argument(
+        "--llm",
+        default="llama3.2",
+        help="LLM model to use for answering (example: llama3.2 or gpt-oss:20b).",
+    )
+    args = parser.parse_args()
+
+    # instantiate chosen LLM (pass-through model name; Ollama must have it installed)
+    selected_model = args.llm
+    llm = ChatOllama(model=selected_model, temperature=0)
+
     store = DatasetStore()
     entries = store.load_version()
     manifest = store.load_manifest()
@@ -61,7 +84,7 @@ def main():
     for i, entry in enumerate(entries, 1):
         print(f"[{i}/{len(entries)}] Q: {entry.question}")
         start = time.time()
-        answer = ask_rag(entry.question)
+        answer = ask_rag(llm, entry.question, selected_model)
         latency = round(time.time() - start, 2)
         print(f"         A: {answer}")
         print(f"         Expected: {entry.answer}")
@@ -85,13 +108,21 @@ def main():
     # Print results
     avg = summary.avg_semantic_similarity or 0.0
     passed = summary.passed()
+    GREEN = "\x1b[32m"
+    RED = "\x1b[31m"
+    RESET = "\x1b[0m"
+    TICK = "✓"
+    CROSS = "✗"
+
     print("=" * 50)
     print(f"EVALUATION RESULTS (v{summary.version})")
     print("=" * 50)
     for r in summary.results:
-        print(f"  [{r.entry_id}] similarity={r.semantic_similarity:.3f}  Q: {r.question[:50]}")
+        symbol = f"{GREEN}{TICK}{RESET}" if (r.semantic_similarity or 0.0) >= 0.7 else f"{RED}{CROSS}{RESET}"
+        print(f"  [{r.entry_id}] {symbol} similarity={r.semantic_similarity:.3f}  Q: {r.question[:50]}")
+    overall_symbol = f"{GREEN}{TICK}{RESET}" if passed else f"{RED}{CROSS}{RESET}"
     print(f"\n  Avg Similarity: {avg:.3f}")
-    print(f"  Pass (>=0.5):   {'YES' if passed else 'NO'}")
+    print(f"  Pass (>=0.7):   {overall_symbol}")
     print(f"  Saved to:       {eval_path}")
 
 
